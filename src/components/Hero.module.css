@@ -1,0 +1,48 @@
+.hero{
+    position:relative;
+    min-height:70vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    overflow:hidden;
+}
+
+.bg{object-fit:cover;z-index:-2;}
+
+.hero::after{
+    content:'';
+    position:absolute;inset:0;
+    background:linear-gradient(to bottom,rgba(0,0,0,.3),rgba(0,0,0,.8));
+    z-index:-1;
+}
+
+.content{
+    max-width:80%;
+    transform:translateY(-40px);
+    transition:transform .4s ease-out;
+}
+
+.hero:hover .content{transform:translateY(0);}  /* subtle Apple hover rise */
+
+.content h1{                    /* ⬅ now legal */
+    font-size:clamp(2rem,8vw,5rem);
+    font-weight:600;
+}
+
+.content p{
+    margin-top:.5rem;
+    font-size:1.25rem;
+}
+
+.content a{
+    display:inline-block;
+    margin-top:1.5rem;
+    padding:.6rem 1.5rem;
+    border-radius:8px;
+    background:#2997ff;
+    color:#fff;
+    font-weight:500;
+}
+
+.invert a{background:#fff;color:#000;}

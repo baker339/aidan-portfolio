@@ -1,0 +1,105 @@
+/* —— container —— */
+.section {
+    position: relative;
+    margin: 0;
+    margin-left: 1rem;
+    padding-block: 5rem 2rem;
+    overflow: hidden;
+}
+
+/* —— scrolling track —— */
+.track {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-inline: 2rem;
+    list-style: none;
+    scroll-behavior: smooth;
+}
+.track::-webkit-scrollbar { display: none; }
+
+/* —— individual card —— */
+.card {
+    position: relative;
+    flex: 0 0 80%;
+    max-width: 720px;
+    height: 28rem;
+    aspect-ratio: 16 / 9;
+    border-radius: 24px;
+    overflow: hidden;
+    scroll-snap-align: start;
+    background: #ffffff;
+    color: #000;
+    transition: transform .4s;
+}
+.card:hover { transform: translateY(-6px); }
+
+/* dark variation */
+.dark { background: #1d1d1f; color: #f5f5f7; }
+
+/* invisible anchor so the whole card is clickable */
+.link {
+    position: absolute; inset: 0; z-index: 2;
+}
+
+/* —— text block —— */
+.text {
+    position: absolute;
+    inset: auto 2rem 2rem 2rem;
+    z-index: 3;
+}
+/* …previous rules … */
+
+.text h3 {                              /* ✅ now legal */
+    font: 600 clamp(1.5rem, 3vw, 2.5rem)/1 'SF Pro Display', sans-serif;
+    margin: 0;
+}
+
+.text p  {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    margin: .5rem 0 1rem;
+    max-width: 24ch;
+}
+
+/* .button rule can stay as-is because it starts with a class name */
+.button {
+    display: inline-block;
+    font-size: .9rem;
+    padding: .45rem 1.2rem;
+    border-radius: 100px;
+    background: #0071E3;
+    color: #ffffff;
+    mix-blend-mode: difference;
+    text-decoration: none;
+}
+
+/* —— media —— */
+.media {
+    position: absolute;
+    inset: 0;
+}
+.media img { object-fit: cover; }
+
+/* —— paddlenav —— */
+.nav {
+    position: absolute;
+    inset-inline: 0;
+    bottom: .5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.nav button {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0,0,0,.5);
+    color: #fff;
+    font-size: 1.25rem;
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    transition: background .2s;
+}
+.dark ~ .nav button { background: rgba(0,0,0,.35); }
+.nav button:hover { background: rgba(0,0,0,.7); }

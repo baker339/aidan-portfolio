@@ -1,0 +1,8 @@
+.section{
+    min-height:100vh;display:flex;flex-direction:column;
+    justify-content:center;align-items:center;
+    padding:4rem 1rem;max-width:1200px;margin:0 auto;text-align:center;
+}
+.section h2{font-size:2rem;margin-bottom:2rem;}
+.section ul{list-style:none;display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;}
+.section li{background:#1d1d1f;padding:0.4rem 0.8rem;border-radius:6px;font-size:.9rem;}

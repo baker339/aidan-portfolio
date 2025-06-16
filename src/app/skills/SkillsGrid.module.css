@@ -1,0 +1,52 @@
+/* ===== layout ===== */
+.grid {
+    display: grid;
+    gap: 4rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    width: 100%;
+    max-width: 1200px;
+}
+
+@media screen and (min-width: 800px) {
+    .grid {
+        grid-template-columns: repeat(2, minmax(300px, 1fr));
+    }
+}
+
+.category {
+    text-align: center;
+}
+
+/* headings */
+.category h2 {
+    font: 600 clamp(1.5rem, 2vw, 2rem)/1 'SF Pro Display', sans-serif;
+    letter-spacing: .01em;
+    margin-bottom: 1.5rem;
+}
+
+/* pill list */
+.category ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+.pill {
+    padding: .45rem 1rem;
+    border-radius: 999px;
+    background: #1d1d1f;
+    color: #f5f5f7;
+    font-size: .85rem;
+    letter-spacing: .01em;
+    white-space: nowrap;
+    transition: transform .2s, background .2s;
+}
+
+.pill:hover {
+    transform: translateY(-2px);
+    background: #2997ff;
+    cursor: default;
+}
