@@ -28,6 +28,15 @@ const osCards: GalleryCard[] = [
         img: { src: '/memoji_peekaboo.png', alt: 'MacBook on wooden desk' },
         invert: true,
     },
+    {
+        id: 'connect',
+        heading: 'Connect',
+        subhead: "Let's chat!",
+        cta: "See links",
+        href: '/contact',
+        img: { src: '/memoji_wave.png', alt: 'memoji waving' },
+        invert: true,
+    },
 ];
 
 export default function Home(){

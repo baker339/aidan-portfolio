@@ -25,6 +25,15 @@ export default function ExperiencePage() {
             img: { src: '/memoji_peekaboo.png', alt: 'MacBook on desk' },
             invert: true,
         },
+        {
+            id: 'connect',
+            heading: 'Connect',
+            subhead: "Let's chat!",
+            cta: "See links",
+            href: '/contact',
+            img: { src: '/memoji_wave.png', alt: 'memoji waving' },
+            invert: true,
+        },
     ];
 
     return (

@@ -7,6 +7,14 @@ export const metadata = { title: 'Contact | Aidan' };
 export default function ContactPage() {
     const cards: GalleryCard[] = [
         {
+            id: 'skills',
+            heading: 'Skills',
+            subhead: 'My tech toolbox',
+            cta: 'View skills',
+            href: '/skills',
+            img: { src: '/memoji_computer.png', alt: 'Syntax-highlighted code' },
+        },
+        {
             id: 'projects',
             heading: 'Projects',
             subhead: 'See what I build',

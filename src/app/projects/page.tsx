@@ -22,6 +22,15 @@ const cards: GalleryCard[] = [
         href: '/experience',
         img: { src: '/memoji_secret.png', alt: 'Modern office at dusk' },
     },
+    {
+        id: 'connect',
+        heading: 'Connect',
+        subhead: "Let's chat!",
+        cta: "See links",
+        href: '/contact',
+        img: { src: '/memoji_wave.png', alt: 'memoji waving' },
+        invert: true,
+    },
 ];
 
 export default function Projects() {
