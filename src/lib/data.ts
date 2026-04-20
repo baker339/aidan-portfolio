@@ -127,24 +127,6 @@ export const projects = [
         website: 'https://futuristic-url-shortener.vercel.app',
         github: 'https://github.com/baker339/url-shortener',
     },
-    {
-        name: 'Signal Garden (WIP)',
-        description: 'A playful experiment in realtime UI and data viz — write-up and demo coming soon.',
-        tech: 'Next.js, TypeScript, WebSockets, Vercel',
-        image: '/globe.svg',
-        imageAlt: 'Placeholder artwork for Signal Garden',
-        website: 'https://github.com/baker339',
-        github: 'https://github.com/baker339',
-    },
-    {
-        name: 'Arcade Ledger (WIP)',
-        description: 'A tiny toolkit for shipping side projects with less chaos — details landing soon.',
-        tech: 'TBD',
-        image: '/window.svg',
-        imageAlt: 'Placeholder artwork for Arcade Ledger',
-        website: 'https://github.com/baker339',
-        github: 'https://github.com/baker339',
-    },
 ];
 
 export const primaryNav = [
@@ -367,7 +349,7 @@ export const contactPageGallery: GalleryCard[] = [
 export const playModeCopy = {
     title: 'Playground',
     eyebrow: 'Bonus round',
-    subtitle: 'Bump the goo-buttons and read the same resume data as the rest of the site — just with WASD.',
+    subtitle: 'Roll your memoji around the lot, bump every sticker once, and the same resume data opens in chunky cards — WASD or arrows.',
     ctaLabel: "Let's go",
     navLabel: 'Play',
     skipToSiteLabel: 'Skip to normal pages',

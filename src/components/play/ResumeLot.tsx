@@ -1,36 +1,57 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { experience, projects, skills, summary } from '@/lib/data';
 
 type PortalId = 'about' | 'experience' | 'skills' | 'projects';
 
+const PORTAL_IDS: PortalId[] = ['about', 'experience', 'skills', 'projects'];
+
 type Portal = {
     id: PortalId;
     label: string;
+    short: string;
     x: number;
     y: number;
     accent: string;
 };
 
 const portals: Portal[] = [
-    { id: 'about', label: 'Big intro', x: 48, y: 18, accent: 'bg-blast text-ink' },
-    { id: 'experience', label: 'Day jobs', x: 22, y: 42, accent: 'bg-splat text-ink' },
-    { id: 'skills', label: 'Tool pile', x: 76, y: 44, accent: 'bg-slime text-ink' },
-    { id: 'projects', label: 'Shipped stuff', x: 50, y: 74, accent: 'bg-grape text-paper' },
+    { id: 'about', label: 'Big intro', short: 'Intro', x: 48, y: 20, accent: 'bg-blast text-ink' },
+    { id: 'experience', label: 'Day jobs', short: 'Jobs', x: 22, y: 44, accent: 'bg-splat text-ink' },
+    { id: 'skills', label: 'Tool pile', short: 'Skills', x: 78, y: 44, accent: 'bg-slime text-ink' },
+    { id: 'projects', label: 'Shipped stuff', short: 'Builds', x: 50, y: 76, accent: 'bg-grape text-paper' },
 ];
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
+
+const LOT_VISITS_KEY = 'aidan-portfolio-lot-visits';
+
+function loadVisits(): Set<PortalId> {
+    try {
+        const raw = localStorage.getItem(LOT_VISITS_KEY);
+        const arr: unknown[] = raw ? JSON.parse(raw) : [];
+        return new Set(arr.filter((x): x is PortalId => PORTAL_IDS.includes(x as PortalId)));
+    } catch {
+        return new Set();
+    }
+}
 
 export default function ResumeLot() {
     const [pos, setPos] = useState({ x: 50, y: 68 });
     const [open, setOpen] = useState<PortalId | null>(null);
     const closeRef = useRef<HTMLButtonElement>(null);
     const [reduceMotion, setReduceMotion] = useState(false);
-    const [visitedCount, setVisitedCount] = useState(0);
+    const [visited, setVisited] = useState<Set<PortalId>>(new Set());
+    const [hydrated, setHydrated] = useState(false);
+    const [showMoveHint, setShowMoveHint] = useState(true);
 
-    const LOT_VISITS_KEY = 'aidan-portfolio-lot-visits';
+    useEffect(() => {
+        setVisited(loadVisits());
+        setHydrated(true);
+    }, []);
 
     useEffect(() => {
         const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -40,41 +61,37 @@ export default function ResumeLot() {
         return () => mq.removeEventListener('change', apply);
     }, []);
 
-    useEffect(() => {
-        try {
-            const raw = localStorage.getItem(LOT_VISITS_KEY);
-            const visits: string[] = raw ? JSON.parse(raw) : [];
-            setVisitedCount(new Set(visits).size);
-        } catch {
-            /* ignore */
-        }
+    const recordVisit = useCallback((id: PortalId) => {
+        setVisited((prev) => {
+            if (prev.has(id)) return prev;
+            const next = new Set(prev);
+            next.add(id);
+            try {
+                localStorage.setItem(LOT_VISITS_KEY, JSON.stringify([...next]));
+            } catch {
+                /* ignore */
+            }
+            return next;
+        });
     }, []);
 
     useEffect(() => {
-        if (!open) return;
-        try {
-            const raw = localStorage.getItem(LOT_VISITS_KEY);
-            const visits: string[] = raw ? JSON.parse(raw) : [];
-            const next = Array.from(new Set([...visits, open]));
-            localStorage.setItem(LOT_VISITS_KEY, JSON.stringify(next));
-            setVisitedCount(next.length);
-        } catch {
-            /* ignore */
-        }
-    }, [open]);
+        if (open) recordVisit(open);
+    }, [open, recordVisit]);
 
     const move = useCallback(
         (dx: number, dy: number) => {
             if (open) return;
+            setShowMoveHint(false);
             setPos((prev) => {
-                const step = reduceMotion ? 7 : 5;
+                const step = reduceMotion ? 6 : 4;
                 const next = {
-                    x: clamp(prev.x + dx * step, 8, 92),
-                    y: clamp(prev.y + dy * step, 10, 88),
+                    x: clamp(prev.x + dx * step, 10, 90),
+                    y: clamp(prev.y + dy * step, 14, 86),
                 };
-                const hit = portals.find((p) => Math.hypot(next.x - p.x, next.y - p.y) < 9);
+                const hit = portals.find((p) => Math.hypot(next.x - p.x, next.y - p.y) < 11);
                 if (hit) {
-                    window.setTimeout(() => setOpen(hit.id), 0);
+                    window.setTimeout(() => setOpen(hit.id), reduceMotion ? 0 : 80);
                 }
                 return next;
             });
@@ -89,10 +106,22 @@ export default function ResumeLot() {
                 return;
             }
             const k = e.key.toLowerCase();
-            if (['arrowup', 'w'].includes(k)) move(0, -1);
-            if (['arrowdown', 's'].includes(k)) move(0, 1);
-            if (['arrowleft', 'a'].includes(k)) move(-1, 0);
-            if (['arrowright', 'd'].includes(k)) move(1, 0);
+            if (['arrowup', 'w'].includes(k)) {
+                e.preventDefault();
+                move(0, -1);
+            }
+            if (['arrowdown', 's'].includes(k)) {
+                e.preventDefault();
+                move(0, 1);
+            }
+            if (['arrowleft', 'a'].includes(k)) {
+                e.preventDefault();
+                move(-1, 0);
+            }
+            if (['arrowright', 'd'].includes(k)) {
+                e.preventDefault();
+                move(1, 0);
+            }
         };
         window.addEventListener('keydown', onKey);
         return () => window.removeEventListener('keydown', onKey);
@@ -103,48 +132,77 @@ export default function ResumeLot() {
     }, [open]);
 
     const activePortal = portals.find((p) => p.id === open) ?? null;
+    const allFound = hydrated && visited.size >= portals.length;
 
     return (
         <div className="space-y-4">
             <div className="rounded-[var(--radius-blob)] border-4 border-ink bg-ink/40 p-4 text-sm text-paper/90">
-                <p className="font-semibold">Controls: WASD or arrow keys. Bump a sticker to open it — or tap one. Escape closes.</p>
-                <p className="mt-1 text-paper/70">Everything here is wired to the same content module as the rest of the portfolio.</p>
-                <p className="mt-2 text-xs text-paper/60">
-                    This device remembers: <span className="font-bold text-blast">{visitedCount}</span> / {portals.length} spots opened at least once.
-                </p>
+                <p className="font-display text-lg text-paper">Goal: hit all four stickers with your blob.</p>
+                <p className="mt-2 font-semibold">WASD or arrows · Tap stickers too · Esc closes a card</p>
+                {showMoveHint && !open && (
+                    <p className="mt-2 animate-pulse text-xs text-blast motion-reduce:animate-none">Tip: start by rolling up toward the yellow sticker.</p>
+                )}
             </div>
 
             <div className="relative mx-auto aspect-[16/10] w-full max-w-4xl overflow-hidden rounded-[var(--radius-blob)] border-4 border-ink bg-gradient-to-br from-grape via-ink to-splat shadow-[10px_10px_0_0_#1a0f2e]">
-                <div className="absolute inset-0 opacity-30 motion-reduce:opacity-10">
-                    <div className="absolute left-[10%] top-[15%] h-24 w-24 rotate-12 rounded-full border-4 border-dashed border-paper/40" />
-                    <div className="absolute right-[8%] bottom-[18%] h-32 w-32 -rotate-6 rounded-[40%] border-4 border-dotted border-blast/50" />
+                {/* HUD */}
+                <div className="absolute inset-x-0 top-0 z-30 border-b-2 border-ink/40 bg-ink/55 px-3 py-2 backdrop-blur-sm">
+                    <p className="text-center text-[11px] font-extrabold uppercase tracking-[0.2em] text-paper/90">Stickers found</p>
+                    <div className="mt-1.5 flex justify-center gap-1.5">
+                        {portals.map((p) => (
+                            <span
+                                key={p.id}
+                                title={p.label}
+                                className={`h-2.5 min-w-[2rem] rounded-full border border-ink/40 transition-colors ${
+                                    visited.has(p.id) ? 'bg-blast shadow-[0_0_0_1px_#1a0f2e]' : 'bg-paper/20'
+                                }`}
+                            />
+                        ))}
+                    </div>
+                    {allFound && (
+                        <p className="mt-2 text-center text-xs font-bold text-blast">Full clear — you saw everything in this lot.</p>
+                    )}
                 </div>
 
-                {portals.map((p) => (
-                    <button
-                        key={p.id}
-                        type="button"
-                        className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-ink px-3 py-2 text-xs font-extrabold uppercase tracking-wide shadow-[4px_4px_0_0_#1a0f2e] transition ${p.accent} ${
-                            reduceMotion ? '' : 'hover:scale-105'
-                        }`}
-                        style={{ left: `${p.x}%`, top: `${p.y}%` }}
-                        onClick={() => setOpen(p.id)}
-                    >
-                        {p.label}
-                    </button>
-                ))}
+                <div className="absolute inset-0 opacity-25 motion-reduce:opacity-10">
+                    <div className="absolute left-[10%] top-[22%] h-20 w-20 rotate-12 rounded-full border-4 border-dashed border-paper/35" />
+                    <div className="absolute bottom-[14%] right-[8%] h-28 w-28 -rotate-6 rounded-[40%] border-4 border-dotted border-blast/45" />
+                </div>
+
+                {portals.map((p) => {
+                    const done = visited.has(p.id);
+                    return (
+                        <button
+                            key={p.id}
+                            type="button"
+                            className={`absolute z-10 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-ink px-2.5 py-1.5 text-[11px] font-extrabold uppercase tracking-wide shadow-[4px_4px_0_0_#1a0f2e] transition sm:px-3 sm:py-2 sm:text-xs ${p.accent} ${
+                                reduceMotion ? '' : 'hover:scale-105 active:scale-95'
+                            } ${done ? 'opacity-80 ring-2 ring-paper/50' : ''}`}
+                            style={{ left: `${p.x}%`, top: `${p.y}%` }}
+                            onClick={() => setOpen(p.id)}
+                        >
+                            <span className={`flex items-center gap-1 ${!done && !reduceMotion ? 'lot-portal-pulse' : ''}`}>
+                                {done && <span aria-hidden>✓</span>}
+                                <span className="hidden sm:inline">{p.label}</span>
+                                <span className="sm:hidden">{p.short}</span>
+                            </span>
+                        </button>
+                    );
+                })}
 
                 <div
-                    className={`absolute z-20 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-ink bg-paper shadow-[4px_4px_0_0_#1a0f2e] ${
-                        reduceMotion ? '' : 'transition-transform duration-150'
+                    className={`absolute z-20 h-11 w-11 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border-4 border-ink bg-paper shadow-[5px_5px_0_0_#1a0f2e] sm:h-12 sm:w-12 ${
+                        reduceMotion ? '' : 'transition-[left,top] duration-200 ease-out'
                     }`}
                     style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-                    aria-label="You"
-                />
+                    aria-label="You — move with WASD or arrows"
+                >
+                    <Image src="/memoji_smile.png" alt="" width={48} height={48} className="h-full w-full object-cover" priority />
+                </div>
 
-                <div className="pointer-events-none absolute bottom-3 left-3 right-3 flex justify-between text-[10px] font-bold uppercase tracking-widest text-paper/50">
-                    <span>Blob map</span>
-                    <span>Same data.ts</span>
+                <div className="pointer-events-none absolute bottom-2 left-2 right-2 flex justify-between text-[10px] font-bold uppercase tracking-widest text-paper/45">
+                    <span>Resume lot</span>
+                    <span>data.ts</span>
                 </div>
             </div>
 
@@ -186,7 +244,7 @@ export default function ResumeLot() {
                             <button
                                 ref={closeRef}
                                 type="button"
-                                className="rounded-full border-2 border-ink bg-blast px-3 py-1 text-sm font-extrabold"
+                                className="shrink-0 rounded-full border-2 border-ink bg-blast px-3 py-1 text-sm font-extrabold"
                                 onClick={() => setOpen(null)}
                             >
                                 Close
