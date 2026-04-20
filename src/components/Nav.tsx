@@ -3,16 +3,18 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import styles from './Nav.module.css';
+import { primaryNav } from '@/lib/data';
+import { withSiteBase } from '@/lib/paths';
 
-const links = [
-    { href: '/', label: 'Home' },
-    { href: '/skills', label: 'Skills' },
-    { href: '/experience', label: 'Experience' },
-    { href: '/projects', label: 'Projects' },
-    { href: '/contact', label: 'Contact' }
-];
+type NavProps = {
+    basePath?: string;
+};
 
-export default function Nav() {
+export default function Nav({ basePath = '' }: NavProps) {
+    const links = primaryNav.map((l) => ({
+        href: withSiteBase(basePath, l.href),
+        label: l.label,
+    }));
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
     const toggleDrawer = () => {
@@ -31,9 +33,20 @@ export default function Nav() {
                     />
                 </div>
                 <div className={styles.links}>
-                    {links.map(l => (
-                        <Link key={l.href} href={l.href}>{l.label}</Link>
+                    {links.map((l) => (
+                        <Link key={l.href} href={l.href}>
+                            {l.label}
+                        </Link>
                     ))}
+                    <Link
+                        href="/"
+                        className={styles.newSiteLink}
+                        title="New portfolio — main site"
+                        aria-label="Back to new portfolio design at home"
+                    >
+                        <span aria-hidden>🫟</span>
+                        <span aria-hidden>❓</span>
+                    </Link>
                 </div>
                 <button 
                     className={styles.hamburger}
@@ -55,15 +68,21 @@ export default function Nav() {
             {/* Drawer */}
             <div className={`${styles.drawer} ${isDrawerOpen ? styles.drawerOpen : ''}`}>
                 <div className={styles.drawerLinks}>
-                    {links.map(l => (
-                        <Link 
-                            key={l.href} 
-                            href={l.href}
-                            onClick={toggleDrawer}
-                        >
+                    {links.map((l) => (
+                        <Link key={l.href} href={l.href} onClick={toggleDrawer}>
                             {l.label}
                         </Link>
                     ))}
+                    <Link
+                        href="/"
+                        className={`${styles.newSiteLink} ${styles.drawerNewSite}`}
+                        title="New portfolio — main site"
+                        aria-label="Back to new portfolio design at home"
+                        onClick={toggleDrawer}
+                    >
+                        <span aria-hidden>🫟</span>
+                        <span aria-hidden>❓</span>
+                    </Link>
                 </div>
             </div>
         </>

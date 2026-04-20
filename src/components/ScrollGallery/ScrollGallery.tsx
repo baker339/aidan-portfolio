@@ -2,18 +2,9 @@
 import { useRef } from 'react';
 import styles from './ScrollGallery.module.css';
 import Image from 'next/image';
+import type { GalleryCard } from '@/lib/data';
 
-/** ─────── Types ─────── */
-export type GalleryCard = {
-    id: string;
-    heading: string;
-    subhead: string;
-    cta: string;
-    href: string;
-    img?: { src: string; alt: string };
-    imgText?: string;
-    invert?: boolean;               // dark theme card
-};
+export type { GalleryCard } from '@/lib/data';
 
 /** ─────── Component ─────── */
 export default function ScrollGallery({ cards }: { cards: GalleryCard[] }) {

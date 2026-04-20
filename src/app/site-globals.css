@@ -1,0 +1,174 @@
+@import 'tailwindcss';
+
+@theme {
+    --color-slime: #5cff7a;
+    --color-slime-deep: #1f7a3a;
+    --color-splat: #ff6b2d;
+    --color-grape: #7b5cff;
+    --color-blast: #ffde59;
+    --color-ink: #1a0f2e;
+    --color-paper: #fff8ef;
+    --shadow-sticker: 6px 6px 0 0 #1a0f2e;
+    --radius-blob: 28px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    .motion-reduce\:none {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Links: do not set `color: inherit` here — unlayered rules beat Tailwind utilities and
+   would wash out `text-ink` on light buttons (e.g. “See projects”). */
+
+/* Headings: Fredoka via `next/font` → `--font-display` on `(site)/layout` (rounded, playful). */
+.font-display {
+    font-family: var(--font-display), ui-rounded, system-ui, 'Trebuchet MS', 'Arial Rounded MT Bold', 'Helvetica Neue',
+        Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+.site-skin {
+    min-height: 100%;
+    background:
+        repeating-linear-gradient(135deg, transparent, transparent 18px, color-mix(in oklab, #ffffff 5%, transparent) 18px, color-mix(in oklab, #ffffff 5%, transparent) 19px),
+        radial-gradient(circle at 18% 88%, color-mix(in oklab, var(--color-blast) 22%, transparent) 0%, transparent 38%),
+        radial-gradient(circle at 92% 22%, color-mix(in oklab, var(--color-slime) 18%, transparent) 0%, transparent 32%),
+        radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, var(--color-grape) 35%, transparent), transparent 55%),
+        radial-gradient(900px 500px at 110% 10%, color-mix(in oklab, var(--color-splat) 40%, transparent), transparent 50%),
+        linear-gradient(180deg, #2b0f4a 0%, #1a0f2e 38%, #120824 100%);
+    color: var(--color-paper);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Organic “slime / sticker” radii */
+.zany-splat-radius {
+    border-radius: 58% 42% 61% 39% / 44% 48% 52% 56%;
+}
+
+.zany-mess-card {
+    border-radius: 2.35rem 1.45rem 2.15rem 1.2rem / 1.35rem 2.05rem 1.15rem 2.25rem;
+    box-shadow: inset 0 0 0 3px color-mix(in oklab, #ffffff 8%, transparent);
+}
+
+.zany-sticker-ring {
+    box-shadow:
+        0 0 0 4px #fff8ef,
+        10px 10px 0 #1a0f2e,
+        -6px -4px 0 color-mix(in oklab, var(--color-blast) 55%, transparent);
+}
+
+/* Slight list tilt — feels like cut-out stickers */
+.zany-tilt-a {
+    transform: rotate(-1.1deg);
+}
+.zany-tilt-b {
+    transform: rotate(0.9deg);
+}
+.zany-tilt-c {
+    transform: rotate(-0.6deg);
+}
+
+@keyframes zany-wobble {
+    0%,
+    100% {
+        transform: rotate(-1deg) translateY(0);
+    }
+    33% {
+        transform: rotate(0.7deg) translateY(-2px);
+    }
+    66% {
+        transform: rotate(-0.4deg) translateY(1px);
+    }
+}
+
+@keyframes zany-floaty {
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-6px) scale(1.04);
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .zany-wobble-hover:hover {
+        animation: zany-wobble 0.55s ease-in-out infinite;
+    }
+    .zany-hero-pop {
+        animation: zany-floaty 3.2s ease-in-out infinite;
+    }
+}
+
+.site-skin a {
+    text-decoration: none;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.sr-only:focus {
+    position: fixed;
+    width: auto;
+    height: auto;
+    margin: 0;
+    clip: auto;
+    overflow: visible;
+    z-index: 100;
+    left: 1rem;
+    top: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 999px;
+    background: var(--color-blast);
+    color: var(--color-ink);
+    font-weight: 700;
+    outline: 3px solid var(--color-paper);
+}
+
+.site-scanlines {
+    position: relative;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .site-scanlines::after {
+        content: '';
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        background: repeating-linear-gradient(
+            0deg,
+            color-mix(in oklab, #ffffff 6%, transparent) 0px,
+            color-mix(in oklab, #ffffff 6%, transparent) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+        opacity: 0.06;
+        mix-blend-mode: overlay;
+        z-index: 50;
+    }
+}

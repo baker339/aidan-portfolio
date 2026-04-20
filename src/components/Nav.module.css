@@ -79,6 +79,38 @@
     font-size: 1.2rem;
 }
 
+.newSiteLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    border: 2px solid #d2d2d7;
+    text-decoration: none;
+    color: #1d1d1f;
+    font-size: 1.05rem;
+    line-height: 1;
+    font-weight: 600;
+    transition:
+        border-color 0.2s,
+        background 0.2s,
+        color 0.2s;
+}
+
+.newSiteLink:hover {
+    border-color: #1d1d1f;
+    background: #ffd60a;
+    color: #1d1d1f;
+}
+
+.drawerNewSite {
+    margin-left: 0;
+    margin-top: 0.5rem;
+    align-self: flex-start;
+    font-size: 1.35rem;
+    padding: 0.5rem 0.85rem;
+}
+
 /* Media Queries */
 @media (max-width: 768px) {
     .links {

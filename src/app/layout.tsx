@@ -1,21 +1,15 @@
-import './globals.css';
-import Nav from '@/components/Nav';
-import Footer from '@/components/Footer';
 import type { Metadata } from 'next';
+import { siteMetadata } from '@/lib/data';
 
-export const metadata:Metadata={
-    title:'Aidan | Portfolio',
-    description:'Senior Software Engineer portfolio',
+export const metadata: Metadata = {
+    title: siteMetadata.title,
+    description: siteMetadata.description,
 };
 
-export default function RootLayout({children}:{children:React.ReactNode}){
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
-            <body>
-                <Nav />
-                    <main style={{marginTop:'3.5rem'}}>{children}</main>
-                <Footer />
-            </body>
+            <body>{children}</body>
         </html>
     );
 }
