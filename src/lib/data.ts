@@ -379,7 +379,8 @@ export const contactPageGallery: GalleryCard[] = [
 export const playModeCopy = {
     title: 'Playground',
     eyebrow: 'Bonus round',
-    subtitle: 'Roll your memoji around the lot, bump every sticker once, and the same resume data opens in chunky cards — WASD or arrows.',
+    subtitle:
+        'Stack survivor: auto-fire, XP gems, and level-ups where each perk calls out a tool from Aidan’s skills lists (languages, frameworks, technologies). WASD or arrows.',
     ctaLabel: "Let's go",
     navLabel: 'Play',
     skipToSiteLabel: 'Skip to normal pages',

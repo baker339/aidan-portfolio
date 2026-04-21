@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import ResumeLot from '@/components/play/ResumeLot';
+import SurvivorRun from '@/components/play/SurvivorRun';
 import { playModeCopy } from '@/lib/data';
 
 export const metadata = { title: `${playModeCopy.title} | Aidan` };
@@ -20,7 +20,7 @@ export default function PlayPage() {
                     {playModeCopy.skipToSiteLabel}
                 </Link>
             </div>
-            <ResumeLot />
+            <SurvivorRun />
         </div>
     );
 }

@@ -107,22 +107,7 @@ html {
     }
 }
 
-/* Playground / ResumeLot — idle pulse on inner span so parent keeps translate centering */
-@keyframes lot-portal-idle {
-    0%,
-    100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.06);
-    }
-}
-
 @media (prefers-reduced-motion: no-preference) {
-    .lot-portal-pulse {
-        display: inline-block;
-        animation: lot-portal-idle 2.4s ease-in-out infinite;
-    }
     .zany-wobble-hover:hover {
         animation: zany-wobble 0.55s ease-in-out infinite;
     }
