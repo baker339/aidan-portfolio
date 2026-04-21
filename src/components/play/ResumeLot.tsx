@@ -298,11 +298,13 @@ export default function ResumeLot() {
                                             <p className="mt-2 text-xs font-bold uppercase tracking-wide text-ink/70">{p.tech}</p>
                                             <div className="mt-3 flex flex-wrap gap-2">
                                                 <a className="rounded-full bg-splat px-3 py-1 text-xs font-extrabold text-ink" href={p.website} target="_blank" rel="noreferrer">
-                                                    Live site
+                                                    {p.website.includes('apps.apple.com') ? 'App Store' : 'Live site'}
                                                 </a>
-                                                <a className="rounded-full bg-blast px-3 py-1 text-xs font-extrabold text-ink" href={p.github} target="_blank" rel="noreferrer">
-                                                    GitHub
-                                                </a>
+                                                {p.github ? (
+                                                    <a className="rounded-full bg-blast px-3 py-1 text-xs font-extrabold text-ink" href={p.github} target="_blank" rel="noreferrer">
+                                                        GitHub
+                                                    </a>
+                                                ) : null}
                                             </div>
                                         </section>
                                     ))}

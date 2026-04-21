@@ -4,6 +4,10 @@ import { pageHeros, projects, projectsPageGallery } from '@/lib/data';
 
 export const metadata = { title: 'Projects | Aidan' };
 
+function projectPrimaryLabel(website: string) {
+    return website.includes('apps.apple.com') ? 'App Store' : 'Live site';
+}
+
 export default function ProjectsPage() {
     const hero = pageHeros.projects;
     return (
@@ -45,16 +49,18 @@ export default function ProjectsPage() {
                                     rel="noreferrer"
                                     className="inline-flex rounded-full border-2 border-ink bg-splat px-4 py-2 text-sm font-extrabold text-ink"
                                 >
-                                    Live site
+                                    {projectPrimaryLabel(p.website)}
                                 </a>
-                                <a
-                                    href={p.github}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="inline-flex rounded-full border-2 border-ink bg-blast px-4 py-2 text-sm font-extrabold text-ink"
-                                >
-                                    GitHub
-                                </a>
+                                {p.github ? (
+                                    <a
+                                        href={p.github}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="inline-flex rounded-full border-2 border-ink bg-blast px-4 py-2 text-sm font-extrabold text-ink"
+                                    >
+                                        GitHub
+                                    </a>
+                                ) : null}
                             </div>
                         </div>
                     </article>

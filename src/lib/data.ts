@@ -1,3 +1,14 @@
+export type PortfolioProject = {
+    name: string;
+    description: string;
+    tech: string;
+    image: string;
+    imageAlt: string;
+    website: string;
+    /** Omit for App Store–only or private builds. */
+    github?: string;
+};
+
 export type GalleryCard = {
     id: string;
     heading: string;
@@ -15,7 +26,7 @@ export const siteMetadata = {
 };
 
 export const summary =
-    "I'm a senior software engineer who works across the stack: C# and .NET services, careful data modeling in PostgreSQL and SQL Server, and frontends in React, Next.js, and TypeScript—including MudBlazor when the product calls for it. Lately at DHCS I'm architecting provider licensing flows, running services in Docker, and pairing CircleCI, LaunchDarkly, and DataDog so releases stay safe and observable. Before that I led AWS migrations with Terraform at Ally, modernized enterprise apps at WestRock, and shipped government systems on Azure. On the side I build in Swift and Go too—ScoreKeep on iOS, HotDogity on Next.js, and a small Go URL shortener—because I like products that feel as good as the infrastructure underneath.";
+    "I'm a senior software engineer who works across the stack: C# and .NET services, careful data modeling in PostgreSQL and SQL Server, and frontends in React, Next.js, and TypeScript—including MudBlazor when the product calls for it. Lately at DHCS I'm architecting provider licensing flows, running services in Docker, and pairing CircleCI, LaunchDarkly, and DataDog so releases stay safe and observable. Before that I led AWS migrations with Terraform at Ally, modernized enterprise apps at WestRock, and shipped government systems on Azure. On the side I build in Swift and Go too—ScoreKeep and Meez on iOS, Stats Masterson and HotDogity on the web, and a small Go URL shortener—because I like products that feel as good as the infrastructure underneath.";
 
 export const skills = {
     'Spoken Languages 🗣️': ['English - Native', 'French - Fluent', 'Spanish - Novice', 'Japanese - Novice'],
@@ -99,7 +110,16 @@ export const experience = [
     },
 ];
 
-export const projects = [
+export const projects: PortfolioProject[] = [
+    {
+        name: 'Meez — Recipes to Groceries',
+        description:
+            'Turn recipes into one grocery list: paste text or snap a photo, extract ingredients (Apple Intelligence where available), merge and dedupe across recipes, and shop sorted by store section.',
+        tech: 'Swift, SwiftUI, Apple Intelligence, Xcode',
+        image: '/meez.png',
+        imageAlt: 'Meez app icon on the App Store',
+        website: 'https://apps.apple.com/us/app/meez-recipes-to-groceries/id6758865746',
+    },
     {
         name: 'ScoreKeep for Baseball',
         description: 'A lightweight baseball scorekeeping app for iOS.',
@@ -108,6 +128,16 @@ export const projects = [
         imageAlt: 'scorekeep app store screenshot',
         website: 'https://apps.apple.com/us/app/scorekeep-for-baseball/id6744072400',
         github: 'https://github.com/baker339/DOGR',
+    },
+    {
+        name: 'Stats Masterson',
+        description:
+            'A baseball stats copilot: ask in plain English and get table-first answers backed by Statcast and FanGraphs, with Savant-style rigor, pybaseball-powered pulls, and exportable tables.',
+        tech: 'Next.js, TypeScript, Tailwind CSS, pybaseball, Vercel',
+        image: '/statsmasterson.png',
+        imageAlt: 'Stats Masterson app icon',
+        website: 'https://www.statsmasterson.com/',
+        github: 'https://github.com/baker339/statcast-query',
     },
     {
         name: 'HotDogity',

@@ -7,6 +7,10 @@ import styles from './ProjectsPage.module.css';
 
 export const metadata = { title: 'Projects | Aidan' };
 
+function projectPrimaryLabel(website: string) {
+    return website.includes('apps.apple.com') ? 'App Store' : 'Live site';
+}
+
 export default function AppleProjectsPage() {
     const hero = pageHeros.projects;
     return (
@@ -35,11 +39,13 @@ export default function AppleProjectsPage() {
                             </ul>
                             <div className={styles.cta}>
                                 <a href={p.website} target="_blank" rel="noreferrer">
-                                    Live site
+                                    {projectPrimaryLabel(p.website)}
                                 </a>
-                                <a href={p.github} target="_blank" rel="noreferrer">
-                                    GitHub
-                                </a>
+                                {p.github ? (
+                                    <a href={p.github} target="_blank" rel="noreferrer">
+                                        GitHub
+                                    </a>
+                                ) : null}
                             </div>
                         </div>
                     </article>

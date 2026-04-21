@@ -1,6 +1,7 @@
 import '../site-globals.css';
 import SiteNav from '@/components/site/SiteNav';
 import SiteFooter from '@/components/site/SiteFooter';
+import { SiteSlimeProvider } from '@/components/site/SiteSlime';
 import { Fredoka } from 'next/font/google';
 
 /** Display font for the zany site. Build needs network access to `fonts.googleapis.com` / `fonts.gstatic.com` once per deploy. */
@@ -12,7 +13,7 @@ const display = Fredoka({
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className={`${display.variable} site-skin site-scanlines flex min-h-dvh flex-col`}>
+        <SiteSlimeProvider displayVariableClass={display.variable}>
             <a className="sr-only" href="#site-main">
                 Skip to content
             </a>
@@ -21,6 +22,6 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
                 <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col">{children}</div>
             </main>
             <SiteFooter />
-        </div>
+        </SiteSlimeProvider>
     );
 }
