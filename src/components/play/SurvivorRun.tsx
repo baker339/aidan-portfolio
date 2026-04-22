@@ -402,29 +402,34 @@ export default function SurvivorRun() {
                 )}
 
                 {phase === 'levelup' && offers.length > 0 && (
-                    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-ink/88 p-4 backdrop-blur-sm">
-                        <p className="font-display text-2xl text-blast">Level up</p>
-                        <p className="text-center text-xs text-paper/75">
-                            Pick one perk — the small line under the title is which part of Aidan’s résumé data the card is using; the paragraph names the exact skill string from{' '}
-                            <Link href="/skills" className="font-bold text-blast underline decoration-2 underline-offset-2">
-                                /skills
-                            </Link>
-                            .
-                        </p>
-                        <div className="grid w-full max-w-lg gap-2 sm:grid-cols-3">
-                            {offers.map((o) => (
-                                <button
-                                    key={o.id}
-                                    type="button"
-                                    className="zany-mess-card border-4 border-ink bg-paper p-3 text-left text-ink shadow-[6px_6px_0_0_#1a0f2e] transition hover:brightness-105"
-                                    onClick={() => pickUpgrade(o.id)}
-                                >
-                                    <p className="text-[10px] font-extrabold uppercase tracking-[0.12em] text-ink/55">{o.source}</p>
-                                    <p className="font-display text-lg leading-tight">{o.title}</p>
-                                    <p className="mt-2 text-xs leading-snug text-ink/80 md:hidden">{o.blurbShort}</p>
-                                    <p className="mt-2 hidden text-xs leading-snug text-ink/80 md:block">{o.blurb}</p>
-                                </button>
-                            ))}
+                    <div className="absolute inset-0 z-20 overflow-y-auto bg-ink/88 p-3 backdrop-blur-sm sm:p-4">
+                        <div className="mx-auto flex min-h-full w-full max-w-lg flex-col justify-start gap-3 py-2 sm:justify-center">
+                            <p className="text-center font-display text-2xl text-blast">Level up</p>
+                            <p className="text-center text-xs text-paper/75">
+                                Pick one perk — the small line under the title is which part of Aidan’s résumé data the card is using; the paragraph names the exact skill string from{' '}
+                                <Link href="/skills" className="font-bold text-blast underline decoration-2 underline-offset-2">
+                                    /skills
+                                </Link>
+                                .
+                            </p>
+                            <p className="text-center text-[10px] font-extrabold uppercase tracking-[0.14em] text-blast/90 sm:hidden">
+                                Swipe up to see all perks ↓
+                            </p>
+                            <div className="grid w-full gap-2 sm:grid-cols-3">
+                                {offers.map((o) => (
+                                    <button
+                                        key={o.id}
+                                        type="button"
+                                        className="zany-mess-card border-4 border-ink bg-paper p-3 text-left text-ink shadow-[6px_6px_0_0_#1a0f2e] transition hover:brightness-105"
+                                        onClick={() => pickUpgrade(o.id)}
+                                    >
+                                        <p className="text-[10px] font-extrabold uppercase tracking-[0.12em] text-ink/55">{o.source}</p>
+                                        <p className="font-display text-lg leading-tight">{o.title}</p>
+                                        <p className="mt-2 text-xs leading-snug text-ink/80 md:hidden">{o.blurbShort}</p>
+                                        <p className="mt-2 hidden text-xs leading-snug text-ink/80 md:block">{o.blurb}</p>
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 )}
